@@ -26,7 +26,7 @@ class OrderRequest extends ApiRequest
     {
         return [
             'pointA.required' => 'PointA required!',
-            'pointB.required' => 'PointB id required!',
+            'pointB.required' => 'PointB required!',
             'price.required' => 'Price required'
         ];
     }

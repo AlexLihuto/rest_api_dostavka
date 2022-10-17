@@ -21,7 +21,7 @@ abstract class ApiController extends Controller
     /**
      * @param Request $request
      */
-    public function get(Request $request)
+    public function getAll(Request $request)
     {
 
         $limit = (int)$request->get('limit', 100);
@@ -29,7 +29,7 @@ abstract class ApiController extends Controller
 
         $result = $this->model->limit($limit)->offset($offset)->get();
 
-        $this->sendResponse($result, 'OK', 200);
+        return $this->sendResponse($result, 'OK', 200);
 
     }
 
@@ -40,7 +40,7 @@ abstract class ApiController extends Controller
     public function detail(int $entityId)
     {
 
-        $entity = $this->model->find($entityId)->first();
+        $entity = $this->model->find($entityId);
 
         if (!$entity) {
             return $this->sendError('Not Found', 404);
@@ -58,7 +58,7 @@ abstract class ApiController extends Controller
     public function update(int $entityId, Request $request)
     {
 
-        $entity = $this->model->find($entityId)->first();
+        $entity = $this->model->find($entityId);
 
         if (!$entity) {
             return $this->sendError('Not Found', 404);

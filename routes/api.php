@@ -26,10 +26,28 @@ Route::group(['middleware' => 'api'], function () {
     Route::get('user', [UserAuthController::class, 'user']);
     Route::post('refresh', [UserAuthController::class, 'refresh']);
     Route::post('logout', [UserAuthController::class, 'logout']);
+
+});
+
+Route::group(['middleware' => ['role:super-admin'], 'prefix' => 'admin'], function () {
+    Route::get('/orders', [OrderController::class, 'getAll']);
+    Route::post('/orders', [OrderController::class, 'createOrder']);
+    Route::get('/orders/{id}', [OrderController::class, 'detail']);
+    Route::put('/orders/{id}', [OrderController::class, 'updateOrder']);
+    Route::delete('/orders/{id}', [OrderController::class, 'delete']);
+});
+
+Route::group(['middleware' => ['role:buyer'], 'prefix' => 'buyer'], function () {
+    Route::post('/orders', [OrderController::class, 'createOrder']);
 });
 
 Route::group(['middleware' => ['role:seller'], 'prefix' => 'seller'], function () {
-    Route::get('/orders', [SellerOrderController::class, 'index']);
+    Route::get('/orders', [OrderController::class, 'getAll']);
+    Route::get('/orders/{id}', [OrderController::class, 'detail']);
+});
+
+Route::group(['middleware' => ['role:courier'], 'prefix' => 'courier'], function () {
+    Route::get('/orders/{id}', [OrderController::class, 'detail']);
 });
 
 /*Route::prefix('/orders')->group(function () {
