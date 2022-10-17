@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\SellerOrderController;
 use App\Http\Controllers\UserAuthController;
+use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,7 +20,7 @@ use Illuminate\Support\Facades\Route;
     return $request->user();
 });*/
 
-Route::group(['middleware' => 'api'], function ($router) {
+Route::group(['middleware' => 'api'], function () {
     Route::post('register', [UserAuthController::class, 'register']);
     Route::post('login', [UserAuthController::class, 'login']);
     Route::get('user', [UserAuthController::class, 'user']);
@@ -26,7 +28,11 @@ Route::group(['middleware' => 'api'], function ($router) {
     Route::post('logout', [UserAuthController::class, 'logout']);
 });
 
-Route::prefix('/orders')->group(function () {
+Route::group(['middleware' => ['role:seller'], 'prefix' => 'seller'], function () {
+    Route::get('/orders', [SellerOrderController::class, 'index']);
+});
+
+/*Route::prefix('/orders')->group(function () {
 
     Route::get('/', ['uses' => 'OrderController@get']);
     Route::get('/{id}', ['uses' => 'OrderController@detail'])->where(['id' => '[0-9+]']);
@@ -34,4 +40,4 @@ Route::prefix('/orders')->group(function () {
     Route::delete('/{id}', ['uses' => 'OrderController@delete'])->where(['id' => '[0-9+]']);
     Route::put('/{id}', ['uses' => 'OrderController@updateOrder'])->where(['id' => '[0-9+]']);
 
-});
+});*/
