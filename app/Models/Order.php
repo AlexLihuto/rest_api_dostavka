@@ -20,6 +20,7 @@ class Order extends Model
     ];
 
     protected $visible = [
+        'id',
         'pointA',
         'pointB',
         'price',
