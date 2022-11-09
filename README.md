@@ -1,7 +1,7 @@
 
 # Dostavka (rest api)
 
-Test (junior)
+Test (junior). Good job!
 
 What should the service include:
 
